@@ -1,4 +1,3 @@
-//frontend/src/components/AddressForm.js
 import React, { useState } from 'react';
 import { checkServiceability } from '../services/api';
 
