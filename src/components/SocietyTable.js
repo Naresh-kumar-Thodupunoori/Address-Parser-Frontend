@@ -1,36 +1,55 @@
-//frontend/src/components/SocietyTable.js
 import React from 'react';
 import './SocietyTable.css';
 
 const SocietyTable = ({ data }) => {
+    if (!data || (!Array.isArray(data) && !data.societyName)) {
+        return null;
+    }
+
     const formattedData = Array.isArray(data) ? data : [data];
     
     return (
-        <div className="table-container">
-            <table className="styled-table">
-                <thead>
-                    <tr>
-                        <th>Society Name</th>
-                        <th>Block</th>
-                        <th>Flat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {formattedData.length > 0 && formattedData[0] ? (
-                        formattedData.map((item, index) => (
-                            <tr key={index}>
-                                <td>{item.societyName}</td>
-                                <td>{item.block || 'N/A'}</td>
-                                <td>{item.flat || 'N/A'}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="3">No data available</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+        <div className="society-container">
+            {formattedData.map((item, index) => (
+                <div key={index} className="society-card">
+                    <div className="society-grid">
+                        <div className="society-field">
+                            <label className="field-label">
+                                SOCIETY NAME
+                            </label>
+                            <div className="field-value">
+                                {item.societyName && item.societyName !== 'Error' ? item.societyName : 'N/A'}
+                            </div>
+                        </div>
+                        <div className="society-field">
+                            <label className="field-label">
+                                FLAT NUMBER
+                            </label>
+                            <div className="field-value">
+                                {item.flat || 'N/A'}
+                            </div>
+                        </div>
+                        <div className="society-field">
+                            <label className="field-label">
+                                BLOCK NAME
+                            </label>
+                            <div className="field-value">
+                                {item.block || 'N/A'}
+                            </div>
+                        </div>
+                    </div>
+                    <div className={`status-message ${
+                        item.societyName === 'Error' || !item.societyName || item.societyName === 'N/A' 
+                            ? 'status-error' 
+                            : 'status-success'
+                    }`}>
+                        {item.societyName === 'Error' || !item.societyName || item.societyName === 'Not Serviceable'
+                            ? 'Sorry! This address is a bad match! 🚫'
+                            : 'OOH! Congrats! Address ✓'
+                        }
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };

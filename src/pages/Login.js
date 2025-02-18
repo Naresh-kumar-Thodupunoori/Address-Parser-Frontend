@@ -1,8 +1,10 @@
+// frontend/src/pages/Login.js
 import React, { useState } from "react";
 import { auth, googleProvider } from "../firebaseConfig";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
-import "./Login.css";
+import "../pages/Auth.css";
+import googleIcon from "../google-icon.svg"
 
 const Login = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -34,9 +36,10 @@ const Login = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2 className="login-title">Login</h2>
+    <div className="auth-container">
+      <div className="auth-box">
+        {/* <img src="/logo.svg" alt="Logo" className="auth-logo" /> */}
+        <h2 className="auth-title">Login</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -46,6 +49,7 @@ const Login = ({ setIsAuthenticated }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -56,18 +60,19 @@ const Login = ({ setIsAuthenticated }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
+              placeholder="Enter your password"
               required
             />
           </div>
-          <button type="submit" className="login-button">
+          <button type="submit" className="auth-button">
             Login
           </button>
         </form>
         <button onClick={handleGoogleSignIn} className="google-button">
+          <img src={googleIcon} alt="Google" width="18" height="18" />
           Sign in with Google
         </button>
-        
-        <p className="signup-text">
+        <p className="auth-link">
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>

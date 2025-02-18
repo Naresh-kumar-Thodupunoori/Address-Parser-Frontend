@@ -1,8 +1,10 @@
+/*frontend/src/pages/signup.js*/
 import React, { useState } from "react";
 import { auth, googleProvider } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import "./Signup.css";
+import { useNavigate, Link } from "react-router-dom";
+import googleIcon from "../google-icon.svg";
+import "../pages/Auth.css";
 
 const Signup = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
@@ -10,7 +12,6 @@ const Signup = ({ setIsAuthenticated }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // Email/Password Signup
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -23,7 +24,6 @@ const Signup = ({ setIsAuthenticated }) => {
     }
   };
 
-  // Google Signup (Same as Google Sign-In)
   const handleGoogleSignup = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
@@ -36,9 +36,10 @@ const Signup = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-box">
-        <h2 className="signup-title">Sign Up</h2>
+    <div className="auth-container">
+      <div className="auth-box">
+        {/* <img src="/logo.svg" alt="Logo" className="auth-logo" /> */}
+        <h2 className="auth-title">Sign Up</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSignup}>
           <div className="form-group">
@@ -48,6 +49,7 @@ const Signup = ({ setIsAuthenticated }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
+              placeholder="Enter your email"
               required
             />
           </div>
@@ -58,16 +60,21 @@ const Signup = ({ setIsAuthenticated }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
+              placeholder="Enter your password"
               required
             />
           </div>
-          <button type="submit" className="signup-button">
+          <button type="submit" className="auth-button">
             Sign Up
           </button>
         </form>
         <button onClick={handleGoogleSignup} className="google-button">
+          <img src={googleIcon} alt="Google" width="18" height="18" />
           Sign up with Google
         </button>
+        <p className="auth-link">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );
