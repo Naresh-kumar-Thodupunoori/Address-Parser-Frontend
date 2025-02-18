@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import { MapPin } from 'lucide-react';
-import { checkServiceability } from '../services/api';
+import {checkServiceability} from '../services/api'
 import './AddressForm.css'
 
 const containerStyle = {
@@ -80,8 +79,8 @@ const AddressForm = ({ onResult }) => {
                 <div>
                     <h2>Enter Latitude & Longitude</h2>
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-                            <MapPin color="#666" size={20} />
+                        <div className="input-group">
+                            <span className="input-icon">📍</span>
                             <input
                                 type="text"
                                 value={latitude}
@@ -90,8 +89,8 @@ const AddressForm = ({ onResult }) => {
                                 required
                             />
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <MapPin color="#666" size={20} />
+                        <div className="input-group">
+                            <span className="input-icon">📍</span>
                             <input
                                 type="text"
                                 value={longitude}
