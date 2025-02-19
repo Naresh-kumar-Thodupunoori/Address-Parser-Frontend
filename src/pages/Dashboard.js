@@ -98,8 +98,18 @@ const AddressForm = ({ onResult, isLoaded }) => {
         address
       });
       
+      // Save the input data with the result
+      const resultWithInput = {
+        ...result,
+        inputData: {
+          address,
+          latitude: markerPosition.lat,
+          longitude: markerPosition.lng
+        }
+      };
+      
       if (typeof onResult === 'function') {
-        onResult(result);
+        onResult(resultWithInput);
       }
       
       // Only clear form if the API call was successful
@@ -174,6 +184,19 @@ const AddressForm = ({ onResult, isLoaded }) => {
   );
 };
 
+// New component for history entries that shows input data
+const HistoryEntry = ({ item }) => {
+  return (
+    <div className="history-entry">
+      <div className="history-input-info">
+        <p>Lat: {item.inputData?.latitude.toFixed(5)}, Long: {item.inputData?.longitude.toFixed(5)}</p>
+        {item.inputData?.address && <p>Address: {item.inputData.address}</p>}
+      </div>
+      <SocietyTable data={item} />
+    </div>
+  );
+};
+
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [addressHistory, setAddressHistory] = useState([]);
@@ -188,6 +211,10 @@ const Dashboard = () => {
     setAddressHistory([{ ...result, timestamp: new Date().toISOString(), id: Date.now() }, ...addressHistory]);
   };
 
+  const handleClearHistory = () => {
+    setAddressHistory([]);
+  };
+
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div className="dashboard">
@@ -199,9 +226,16 @@ const Dashboard = () => {
           handleLogout={handleLogout} 
         />
         <main className="main-content">
-          <h2 className="page-title">
-            {activeSection === "dashboard" ? "Address Lookup" : "Lookup History"}
-          </h2>
+          <div className="content-header">
+            <h2 className="page-title">
+              {activeSection === "dashboard" ? "Address Lookup" : "History"}
+            </h2>
+            {activeSection === "history" && addressHistory.length > 0 && (
+              <button onClick={handleClearHistory} className="clear-button">
+                <span className="button-icon">🗑️</span> Delete All
+              </button>
+            )}
+          </div>
           <div className="content-body">
             {activeSection === "dashboard" ? (
               <>
@@ -212,7 +246,7 @@ const Dashboard = () => {
               addressHistory.length > 0 ? (
                 <div className="history-list">
                   {addressHistory.map((item) => (
-                    <SocietyTable key={item.id} data={item} />
+                    <HistoryEntry key={item.id} item={item} />
                   ))}
                 </div>
               ) : (
