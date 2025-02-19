@@ -1,3 +1,4 @@
+//frontend/src/components/SocietyTable.js
 import React from 'react';
 import './SocietyTable.css';
 
