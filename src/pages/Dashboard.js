@@ -3,6 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import SocietyTable from '../components/SocietyTable';
 import { checkServiceability } from '../services/api';
+import { saveAddressHistory, getAddressHistory, deleteAllAddressHistory } from '../services/firestore';
 import './Dashboard.css';
 
 const mapContainerStyle = {
@@ -207,12 +208,23 @@ const Dashboard = () => {
     console.log("Logout clicked");
   };
 
-  const handleAddressResult = (result) => {
+  useEffect(() => {
+    const fetchHistory = async () => {
+      const history = await getAddressHistory();
+      setAddressHistory(history);
+    };
+    fetchHistory();
+  }, []);
+
+  const handleAddressResult = async (result) => {
     setCurrentResult(result);
-    setAddressHistory([{ ...result, timestamp: new Date().toISOString(), id: Date.now() }, ...addressHistory]);
+    const historyItem = { ...result, timestamp: new Date().toISOString() };
+    setAddressHistory([historyItem, ...addressHistory]);
+    await saveAddressHistory(historyItem);
   };
 
-  const handleClearHistory = () => {
+  const handleClearHistory = async () => {
+    await deleteAllAddressHistory();
     setAddressHistory([]);
   };
 
