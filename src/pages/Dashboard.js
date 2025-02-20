@@ -1,3 +1,4 @@
+//frontend/src/pages/Dashboard.js
 import React, { useState, useCallback, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import SocietyTable from '../components/SocietyTable';
@@ -184,7 +185,7 @@ const AddressForm = ({ onResult, isLoaded }) => {
   );
 };
 
-// New component for history entries that shows input data
+// component for history entries
 const HistoryEntry = ({ item }) => {
   return (
     <div className="history-entry">

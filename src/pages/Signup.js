@@ -1,6 +1,6 @@
 /*frontend/src/pages/signup.js*/
 import React, { useState } from "react";
-import { auth, googleProvider } from "../firebaseConfig";
+import { auth, googleProvider } from "../services/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import googleIcon from "../google-icon.svg";
